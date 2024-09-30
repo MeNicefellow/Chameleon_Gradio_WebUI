@@ -1,5 +1,7 @@
 # Chameleon Multi-Modal Model
 
+![Web UI Screenshot](assets/screenshot.png)
+
 This project uses the Chameleon Multi-Modal Model to process images and text queries. The model is capable of generating responses based on the input images and text.
 
 ## Requirements

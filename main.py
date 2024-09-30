@@ -14,7 +14,8 @@ def process_images_and_query(image_list, query, max_new_tokens):
     image_text = '<image>'
     if image_list:
         images = [Image.open(img_path) for img_path, _ in image_list]
-        query += image_text*len(images)
+        diff = len(images) - len(query.count(image_text))
+        query += image_text*diff
         inputs = processor(images=images, text=query, return_tensors="pt", padding=True).to(model.device,
                                                                                             dtype=torch.bfloat16)
     else:
@@ -38,7 +39,7 @@ chameleon_interface = gr.Interface(
     fn=process_images_and_query,
     inputs=[
         gr.Gallery(label="Upload Images", columns=2, rows=2, height=400, allow_preview=True),
-        gr.Textbox(label="Enter your query", value="What do you see in the uploaded image?"),
+        gr.Textbox(label="Enter your query", value="What do you see in the uploaded image?<image>"),
         gr.Number(label="Max New Tokens", value=128, minimum=1)  # New input field
     ],
     outputs=gr.Textbox(label="Model Output"),
